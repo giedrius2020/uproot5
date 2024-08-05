@@ -1595,7 +1595,6 @@ def _get_dak_array_delay_open(
         obj = uproot._util.regularize_object_path(
             ffile_path, fobject_path, custom_classes, allow_missing, real_options
         )
-        print("DEBUG testing")
         common_keys = obj.keys(
             recursive=recursive,
             filter_name=filter_name,
