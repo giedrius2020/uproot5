@@ -543,6 +543,7 @@ in file {self.file.file_path}"""
         target_cols = []
         container_dict = {}
         _recursive_find(form, target_cols)
+        print(f"DEBUG target cols: {target_cols}")
         for key in target_cols:
             if "column" in key:
                 key_nr = int(key.split("-")[1])
