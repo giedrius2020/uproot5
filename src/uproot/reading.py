@@ -1811,7 +1811,7 @@ class ReadOnlyDirectory(Mapping):
         Note that this reads all objects that are selected by ``filter_name``
         and ``filter_classname``.
         """
-        print("DEBUG iteritems")
+        print("DEBUG iteritems: from reading.py")
         filter_name = uproot._util.regularize_filter(filter_name)
         filter_classname = uproot._util.regularize_filter(filter_classname)
         seen = set()

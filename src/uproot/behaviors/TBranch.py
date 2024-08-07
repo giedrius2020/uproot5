@@ -1384,6 +1384,8 @@ class HasBranches(Mapping):
         Returns (name, branch) pairs of the subbranches as an iterator over
         2-tuples of (str, :doc:`uproot.behaviors.TBranch.TBranch`).
         """
+        print("DEBUG iteritems: from TBranch.py")
+
         filter_name = uproot._util.regularize_filter(filter_name)
         filter_typename = uproot._util.regularize_filter(filter_typename)
         if filter_branch is None:
