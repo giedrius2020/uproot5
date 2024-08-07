@@ -861,6 +861,8 @@ class WritableDirectory(MutableMapping):
         Note that this reads all objects that are selected by ``filter_name``
         and ``filter_classname``.
         """
+        print("DEBUG iteritems: from writable.py")
+
         for keyname in self.iterkeys(
             recursive=recursive,
             cycle=True,
