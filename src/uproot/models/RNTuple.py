@@ -60,7 +60,17 @@ class Model_ROOT_3a3a_Experimental_3a3a_RNTuple(uproot.model.Model):
                 keys.append(fr.field_name)
         return keys
 
-    def keys(self):
+    def keys(
+            self,
+            *,
+            filter_name=no_filter,
+            filter_typename=no_filter,
+            filter_branch=no_filter,
+            recursive=True,
+            full_paths=True,
+            ignore_duplicates=False,
+    ):
+        # TODO: implement needed arguments.
         return self._keys
 
     def read_members(self, chunk, cursor, context, file):
