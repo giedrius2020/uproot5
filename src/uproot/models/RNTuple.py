@@ -11,6 +11,8 @@ from collections import defaultdict
 import numpy
 
 import uproot
+from uproot._util import no_filter
+
 
 # https://github.com/root-project/root/blob/aa513463b0b512517370cb91cca025e53a8b13a2/tree/ntuple/v7/inc/ROOT/RNTupleAnchor.hxx#L69
 _rntuple_anchor_format = struct.Struct(">HHHHQQQQQQQ")
