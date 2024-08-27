@@ -588,6 +588,7 @@ in file {self.file.file_path}"""
         container_dict = {}
         _recursive_find(form, target_cols)
         for key in target_cols:
+            print(f"DEBUG target key (in target_cols): {key}")
             if "column" in key:
                 key_nr = int(key.split("-")[1])
                 dtype_byte = self.column_records[key_nr].type
