@@ -593,6 +593,8 @@ in file {self.file.file_path}"""
             if "column" in key:
                 key_nr = int(key.split("-")[1])
                 dtype_byte = self.column_records[key_nr].type
+                print(f"DEBUG start and end of cluster idx for read_col_pages: "
+                      f"{start_cluster_idx} {stop_cluster_idx}")
                 content = self.read_col_pages(
                     key_nr,
                     range(start_cluster_idx, stop_cluster_idx),
