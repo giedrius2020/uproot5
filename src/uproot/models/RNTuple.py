@@ -580,6 +580,7 @@ in file {self.file.file_path}"""
         cluster_num_entries = numpy.sum(
             [c.num_entries for c in clusters[start_cluster_idx:stop_cluster_idx]]
         )
+        print(f"DEBUG cluster_num_entries: {cluster_num_entries}")
 
         form = self.to_akform().select_columns(filter_names)
         print(f"DEBUG ak form: {form}")
