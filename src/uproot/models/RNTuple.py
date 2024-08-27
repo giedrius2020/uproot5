@@ -63,9 +63,9 @@ class Model_ROOT_3a3a_Experimental_3a3a_RNTuple(uproot.model.Model):
     def keys(
             self,
             *,
-            filter_name=no_filter,
-            filter_typename=no_filter,
-            filter_branch=no_filter,
+            filter_name=None,
+            filter_typename=None,
+            filter_branch=None,
             recursive=False,
             full_paths=True,
             ignore_duplicates=False,
