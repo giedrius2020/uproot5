@@ -60,7 +60,17 @@ class Model_ROOT_3a3a_Experimental_3a3a_RNTuple(uproot.model.Model):
                 keys.append(fr.field_name)
         return keys
 
-    def keys(self):
+    def keys(
+            self,
+            *,
+            filter_name=no_filter,
+            filter_typename=no_filter,
+            filter_branch=no_filter,
+            recursive=False,
+            full_paths=True,
+            ignore_duplicates=False,
+    ):
+        # TODO: implement needed arguments.
         return self._keys
 
     def read_members(self, chunk, cursor, context, file):
@@ -572,6 +582,7 @@ in file {self.file.file_path}"""
         )
 
         form = self.to_akform().select_columns(filter_names)
+        print(f"DEBUG ak form: {form}")
         # only read columns mentioned in the awkward form
         target_cols = []
         container_dict = {}
@@ -587,14 +598,19 @@ in file {self.file.file_path}"""
                 )
                 if "cardinality" in key:
                     content = numpy.diff(content)
+                    print(f"DEBUG cardinality in key: {content}")
                 if dtype_byte == uproot.const.rntuple_col_type_to_num_dict["switch"]:
                     kindex, tags = _split_switch_bits(content)
                     container_dict[f"{key}-index"] = kindex
                     container_dict[f"{key}-tags"] = tags
+                    print(f"DEBUG dtype_byte: {content}")
+
                 else:
                     # don't distinguish data and offsets
                     container_dict[f"{key}-data"] = content
                     container_dict[f"{key}-offsets"] = content
+                    print(f"DEBUG don't distinguish data and offsets: {container_dict}")
+
         cluster_offset = cluster_starts[start_cluster_idx]
         entry_start -= cluster_offset
         entry_stop -= cluster_offset
