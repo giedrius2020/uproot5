@@ -70,8 +70,10 @@ class Model_ROOT_3a3a_Experimental_3a3a_RNTuple(uproot.model.Model):
             full_paths=True,
             ignore_duplicates=False,
     ):
-        # TODO: implement needed arguments.
-        return self._keys
+        if filter_name:
+            return [key for key in self._keys if key in filter_name]
+        else:
+            return self._keys
 
     def read_members(self, chunk, cursor, context, file):
         if uproot._awkwardforth.get_forth_obj(context) is not None:
@@ -559,8 +561,8 @@ in file {self.file.file_path}"""
 
     def arrays(
         self,
-        filter_names="*",
-        filter_typenames=None,
+        filter_name="*",
+        filter_typename=None,
         entry_start=0,
         entry_stop=None,
         decompression_executor=None,
@@ -582,7 +584,7 @@ in file {self.file.file_path}"""
         )
         print(f"DEBUG cluster_num_entries: {cluster_num_entries}")
 
-        form = self.to_akform().select_columns(filter_names)
+        form = self.to_akform().select_columns(filter_name)
         print(f"DEBUG ak form: {form}")
         # only read columns mentioned in the awkward form
         target_cols = []
