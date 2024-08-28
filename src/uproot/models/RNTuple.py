@@ -71,7 +71,8 @@ class Model_ROOT_3a3a_Experimental_3a3a_RNTuple(uproot.model.Model):
             ignore_duplicates=False,
     ):
         if filter_name:
-            return [key for key in self._keys if key in filter_name]
+            # Find all keys that are matching part of any string (case-insensitive):
+            return [key for key in self._keys if any(substring.lower() in key.lower() for substring in filter_name)]
         else:
             return self._keys
 
