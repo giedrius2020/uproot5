@@ -523,6 +523,8 @@ in file {self.file.file_path}"""
             first_ele_index = self.column_records[ncol].first_ele_index
             res = numpy.pad(res, (first_ele_index, 0))
         print(f"[uproot] DEBUG: res after pad_missing_ele: {res}")
+        print(f"[uproot] DEBUG: res after pad_missing_ele [44432:44442]: {res[44432:44442]}")
+
 
         return res
 
