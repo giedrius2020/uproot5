@@ -618,6 +618,7 @@ in file {self.file.file_path}"""
               f"cluster_num_entries: {cluster_num_entries} \n"
               f"container_dict: {container_dict} \n"
               f"entry_start and stop: {entry_start}:{entry_stop}\n")
+        print(f"Type of the form: {type(form)}")
         return ak.from_buffers(form, cluster_num_entries, container_dict)[
             entry_start:entry_stop
         ]
