@@ -523,11 +523,14 @@ in file {self.file.file_path}"""
         return res
 
     def read_col_page(self, ncol, cluster_i):
+        print(f"[uproot] DEBUG: reading col page. Cluster_i: {cluster_i}")
         linklist = self.page_list_envelopes.pagelinklist[cluster_i]
         pagelist = linklist[ncol]
         dtype_byte = self.column_records[ncol].type
         dtype_str = uproot.const.rntuple_col_num_to_dtype_dict[dtype_byte]
         total_len = numpy.sum([desc.num_elements for desc in pagelist], dtype=int)
+        print(f"[uproot] DEBUG: total_length of desc.num_elements: {total_len}")
+
         if dtype_str == "switch":
             dtype = numpy.dtype([("index", "int64"), ("tag", "int32")])
         elif dtype_str == "bit":
