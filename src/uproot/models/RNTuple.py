@@ -513,6 +513,7 @@ in file {self.file.file_path}"""
         destination[:] = content[:num_elements]
 
     def read_col_pages(self, ncol, cluster_range, pad_missing_ele=False):
+        print(f"[uproot] DEBUG: read_col_pages(ncol={ncol}, cluster_range={cluster_range}, pad_missing_ele={pad_missing_ele})")
         res = numpy.concatenate(
             [self.read_col_page(ncol, i) for i in cluster_range], axis=0
         )
