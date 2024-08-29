@@ -616,6 +616,8 @@ in file {self.file.file_path}"""
 
         print(f"[uproot] DEBUG Cluster num entries: {cluster_num_entries}")
 
+        print(f"[uproot] DEBUG form: \n{form}")
+
         return ak.from_buffers(form, cluster_num_entries, container_dict)[
             entry_start:entry_stop
         ]
