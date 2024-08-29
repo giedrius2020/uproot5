@@ -613,13 +613,6 @@ in file {self.file.file_path}"""
         cluster_offset = cluster_starts[start_cluster_idx]
         entry_start -= cluster_offset
         entry_stop -= cluster_offset
-        print(f"DEBUG ak.from_buffers args: \n"
-              f"form: {form} \n"
-              f"cluster_num_entries: {cluster_num_entries} \n"
-              f"container_dict: {container_dict} \n"
-              f"entry_start and stop: {entry_start}:{entry_stop}\n")
-        print(f"Type of the form: {type(form)}")
-        print(f"Type of the form.contents[0]: {type(form.contents[0])}")
 
         return ak.from_buffers(form, cluster_num_entries, container_dict)[
             entry_start:entry_stop
