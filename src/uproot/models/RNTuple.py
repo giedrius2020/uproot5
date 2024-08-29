@@ -518,7 +518,7 @@ in file {self.file.file_path}"""
             [self.read_col_page(ncol, i) for i in cluster_range], axis=0
         )
         print(f"[uproot] DEBUG: len(res) after numpy.concatenate: {len(res)}")
-        print(f"[uproot] DEBUG: res: {numpy.tolist(res)}")
+        print(f"[uproot] DEBUG: res: {res.tolist()}")
         if pad_missing_ele:
             first_ele_index = self.column_records[ncol].first_ele_index
             res = numpy.pad(res, (first_ele_index, 0))
