@@ -620,6 +620,8 @@ in file {self.file.file_path}"""
               f"entry_start and stop: {entry_start}:{entry_stop}\n")
         print(f"Type of the form: {type(form)}")
         print(f"Type of the form.contents[0]: {type(form.contents[0])}")
+        print(f"[uproot] DEBUG return of ak.from_buffers: {ak.from_buffers(form, cluster_num_entries, container_dict)}")
+
         return ak.from_buffers(form, cluster_num_entries, container_dict)[
             entry_start:entry_stop
         ]
