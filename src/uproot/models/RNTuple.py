@@ -583,21 +583,16 @@ in file {self.file.file_path}"""
         cluster_num_entries = numpy.sum(
             [c.num_entries for c in clusters[start_cluster_idx:stop_cluster_idx]]
         )
-        print(f"DEBUG cluster_num_entries: {cluster_num_entries}")
 
         form = self.to_akform().select_columns(filter_name)
-        print(f"DEBUG ak form: {form}")
         # only read columns mentioned in the awkward form
         target_cols = []
         container_dict = {}
         _recursive_find(form, target_cols)
         for key in target_cols:
-            print(f"DEBUG target key (in target_cols): {key}")
             if "column" in key:
                 key_nr = int(key.split("-")[1])
                 dtype_byte = self.column_records[key_nr].type
-                print(f"DEBUG start and end of cluster idx for read_col_pages: "
-                      f"{start_cluster_idx} {stop_cluster_idx}")
                 content = self.read_col_pages(
                     key_nr,
                     range(start_cluster_idx, stop_cluster_idx),
@@ -605,18 +600,15 @@ in file {self.file.file_path}"""
                 )
                 if "cardinality" in key:
                     content = numpy.diff(content)
-                    print(f"DEBUG cardinality in key: {content}")
                 if dtype_byte == uproot.const.rntuple_col_type_to_num_dict["switch"]:
                     kindex, tags = _split_switch_bits(content)
                     container_dict[f"{key}-index"] = kindex
                     container_dict[f"{key}-tags"] = tags
-                    print(f"DEBUG dtype_byte: {content}")
 
                 else:
                     # don't distinguish data and offsets
                     container_dict[f"{key}-data"] = content
                     container_dict[f"{key}-offsets"] = content
-                    print(f"DEBUG don't distinguish data and offsets: {container_dict}")
 
         cluster_offset = cluster_starts[start_cluster_idx]
         entry_start -= cluster_offset
