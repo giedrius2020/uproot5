@@ -614,6 +614,8 @@ in file {self.file.file_path}"""
         entry_start -= cluster_offset
         entry_stop -= cluster_offset
 
+        print(f"[uproot] DEBUG Cluster num entries: {cluster_num_entries}")
+
         return ak.from_buffers(form, cluster_num_entries, container_dict)[
             entry_start:entry_stop
         ]
