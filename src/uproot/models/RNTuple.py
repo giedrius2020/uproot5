@@ -521,10 +521,10 @@ in file {self.file.file_path}"""
             print("DEBUG offsets: ", offsets)
 
             # Add the offsets to each array
-            adjusted_arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
+            arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
 
             # res = numpy.concatenate(adjusted_arrays, axis=0)
-            print("DEBUG adjusted_arrays for offsets: ", adjusted_arrays)
+            print("DEBUG adjusted_arrays for offsets: ", arrays)
 
         res = numpy.concatenate(
             arrays, axis=0
