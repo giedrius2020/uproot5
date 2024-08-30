@@ -517,9 +517,8 @@ in file {self.file.file_path}"""
 
         if is_offset_col:
             # Calculate cumulative lengths and add offsets
-            offsets = numpy.cumsum([0] + [arr[:-1] for arr in arrays[:-1]])
+            offset_endings = np.concatenate(([0], [arr[:-1] for arr in arrays[:-1]]))
             print("DEBUG offsets: ", offsets)
-
 
             # Add the offsets to each array
             adjusted_arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
