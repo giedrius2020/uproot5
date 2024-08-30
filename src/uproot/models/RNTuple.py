@@ -9,6 +9,7 @@ import struct
 from collections import defaultdict
 
 import numpy
+from itertools import accumulate
 
 import uproot
 
@@ -519,10 +520,10 @@ in file {self.file.file_path}"""
             print("DEBUG offset arrays before adjusting: ", arrays)
             # Step 1: Extract the last elements
             last_elements = [arr[-1] for arr in arrays[:-1]]
-            # Step 2: Compute cumulative sum
-            cumulative_sum = numpy.cumsum(last_elements)
+            # Step 2: Compute cumulative sum using itertools.accumulate
+            cumulative_sum = list(accumulate(last_elements))
             # Step 3: Prepend 0
-            offsets = numpy.concatenate(([0], cumulative_sum))
+            offsets = [0] + cumulative_sum
             print("DEBUG offsets: ", offsets)
 
             # Add the offsets to each array
