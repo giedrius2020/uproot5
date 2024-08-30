@@ -512,10 +512,25 @@ in file {self.file.file_path}"""
         # needed to chop off extra bits incase we used `unpackbits`
         destination[:] = content[:num_elements]
 
-    def read_col_pages(self, ncol, cluster_range, pad_missing_ele=False):
+    def read_col_pages(self, ncol, cluster_range, is_offset_col, pad_missing_ele=False):
         res = numpy.concatenate(
             [self.read_col_page(ncol, i) for i in cluster_range], axis=0
         )
+
+        if is_offset_col:
+            # Identifying cluster boundaries (where the sequence resets)
+            # Assuming each cluster starts at an offset of 0
+            cluster_boundaries = np.where(res == 0)[0]
+
+            # Calculate the cumulative sum of maximum values in each cluster
+            cumulative_max = np.zeros_like(res)
+            cumulative_max[cluster_boundaries[1:]] = np.cumsum([res[b - 1] for b in cluster_boundaries[1:]])
+
+            # Adjust the res by adding the cumulative maximum value
+            continuous_res = offsets + cumulative_max
+            res = continuous_res
+
+            print("DEBUG fixed offsets: ", res)
 
         if pad_missing_ele:
             first_ele_index = self.column_records[ncol].first_ele_index
@@ -599,9 +614,11 @@ in file {self.file.file_path}"""
                 dtype_byte = self.column_records[key_nr].type
                 print(f"[uproot] DEBUG: dype_byte: {dtype_byte}")
 
+                is_offset_col = "cardinality" not in key and dtype_byte == 14
                 content = self.read_col_pages(
                     key_nr,
                     range(start_cluster_idx, stop_cluster_idx),
+                    is_offset_col=is_offset_col,
                     pad_missing_ele=True,
                 )
                 if "cardinality" in key:
