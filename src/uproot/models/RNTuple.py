@@ -517,13 +517,13 @@ in file {self.file.file_path}"""
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
         if is_offset_col:
-            print("DEBUG offset arrays before adjusting: ", arrays)
-            # Step 1: Extract the last elements
+            print("DEBUG offset arrays before adjusting: ")
+            for ar in arrays:
+                print(ar)
+            # Step 1: Extract the last elements:
             last_elements = [arr[-1] for arr in arrays[:-1]]
-            # Step 2: Compute cumulative sum using itertools.accumulate
-            cumulative_sum = list(accumulate(last_elements))
-            # Step 3: Prepend 0
-            offsets = [0] + cumulative_sum
+            # Step 2: Compute cumulative sum using itertools.accumulate:
+            offsets = [0] + list(accumulate(last_elements))
             print("DEBUG offsets: ", offsets)
 
             # Add the offsets to each array
