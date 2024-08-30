@@ -527,7 +527,7 @@ in file {self.file.file_path}"""
             cumulative_max[cluster_boundaries[1:]] = numpy.cumsum([res[b - 1] for b in cluster_boundaries[1:]])
 
             # Adjust the res by adding the cumulative maximum value
-            continuous_res = offsets + cumulative_max
+            continuous_res = res + cumulative_max
             res = continuous_res
 
             print("DEBUG fixed offsets: ", res)
