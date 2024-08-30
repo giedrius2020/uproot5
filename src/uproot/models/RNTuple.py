@@ -517,7 +517,7 @@ in file {self.file.file_path}"""
 
         if is_offset_col:
             # Calculate cumulative lengths and add offsets
-            offsets = numpy.cumsum([0] + [len(arr) for arr in arrays[:-1]])
+            offsets = numpy.cumsum([0] + [arr[:-1] for arr in arrays[:-1]])
             print("DEBUG offsets: ", offsets)
 
 
