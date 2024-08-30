@@ -517,14 +517,15 @@ in file {self.file.file_path}"""
 
         if is_offset_col:
             # Calculate cumulative lengths and add offsets
-            offsets = [0] + [(arr[-1] + 1) for arr in arrays[:-1]]
+            print("DEBUG offset arrays before adjusting: ", arrays)
+            offsets = [0] + [arr[-1] for arr in arrays[:-1]]
             print("DEBUG offsets: ", offsets)
 
             # Add the offsets to each array
             arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
 
             # res = numpy.concatenate(adjusted_arrays, axis=0)
-            print("DEBUG adjusted_arrays for offsets: ", arrays)
+            print("DEBUG offset arrays after adjusting: ", arrays)
 
         res = numpy.concatenate(
             arrays, axis=0
