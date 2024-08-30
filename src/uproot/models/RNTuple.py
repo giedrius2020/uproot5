@@ -530,7 +530,7 @@ in file {self.file.file_path}"""
             arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
 
             # Remove each first element from not first arrays:
-            arrays = [arr[1:] for arr in arrays]
+            arrays = [arrays[0]] + [arr[1:] for arr in arrays[1:]]
 
             # res = numpy.concatenate(adjusted_arrays, axis=0)
             print("DEBUG offset arrays after adjusting: ")
