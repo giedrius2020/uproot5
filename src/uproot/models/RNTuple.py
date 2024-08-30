@@ -513,25 +513,24 @@ in file {self.file.file_path}"""
         destination[:] = content[:num_elements]
 
     def read_col_pages(self, ncol, cluster_range, is_offset_col, pad_missing_ele=False):
-        res = numpy.concatenate(
-            [self.read_col_page(ncol, i) for i in cluster_range], axis=0
-        )
+        arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
         if is_offset_col:
-            # Identifying cluster boundaries (where the sequence resets)
-            # Assuming each cluster starts at an offset of 0
-            cluster_boundaries = numpy.where(res == 0)[0]
 
-            # Calculate the cumulative sum of maximum values in each cluster
-            cumulative_max = numpy.zeros_like(res)
-            cumulative_max[cluster_boundaries[1:]] = numpy.cumsum([res[b - 1] for b in cluster_boundaries[1:]])
+            # Calculate cumulative lengths and add offsets
+            offsets = np.cumsum([0] + [len(arr) for arr in arrays[:-1]])
 
-            # Adjust the res by adding the cumulative maximum value
-            continuous_res = res + cumulative_max
-            res = continuous_res
+            # Add the offsets to each array
+            adjusted_arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
+
+            # res = np.concatenate(adjusted_arrays, axis=0)
+            print("DEBUG adjusted_arrays for offsets: ", adjusted_arrays)
+
+        res = numpy.concatenate(
+            arrays, axis=0
+        )
 
 
-            print("DEBUG fixed offsets: ", res)
 
         if pad_missing_ele:
             first_ele_index = self.column_records[ncol].first_ele_index
