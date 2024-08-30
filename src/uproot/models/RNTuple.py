@@ -517,7 +517,7 @@ in file {self.file.file_path}"""
 
         if is_offset_col:
             # Calculate cumulative lengths and add offsets
-            offsets = [0] + [arr[-1] for arr in arrays[:-1]]
+            offsets = [0] + [(arr[-1] + 1) for arr in arrays[:-1]]
             print("DEBUG offsets: ", offsets)
 
             # Add the offsets to each array
