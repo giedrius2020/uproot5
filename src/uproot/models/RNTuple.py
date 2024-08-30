@@ -530,6 +530,7 @@ in file {self.file.file_path}"""
             continuous_res = res + cumulative_max
             res = continuous_res
 
+
             print("DEBUG fixed offsets: ", res)
 
         if pad_missing_ele:
