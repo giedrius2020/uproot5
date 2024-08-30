@@ -517,33 +517,24 @@ in file {self.file.file_path}"""
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
         if is_offset_col:
-            print("DEBUG offset arrays before adjusting: ")
-            for ar in arrays:
-                print(ar)
-            # Step 1: Extract the last elements:
+            # Extract the last offset values:
             last_elements = [arr[-1] for arr in arrays[:-1]]
-            # Step 2: Compute cumulative sum using itertools.accumulate:
-            offsets = [0] + list(accumulate(last_elements))
-            print("DEBUG offsets: ", offsets)
+
+            # Compute cumulative sum using itertools.accumulate:
+            last_offsets = [0] + list(accumulate(last_elements))
 
             # Add the offsets to each array
-            arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
+            arrays = [arr + offset for arr, offset in zip(arrays, last_offsets)]
 
-            # Remove each first element from not first arrays:
+            # Remove the first element from every sub-array except for the first one:
             arrays = [arrays[0]] + [arr[1:] for arr in arrays[1:]]
 
-            # res = numpy.concatenate(adjusted_arrays, axis=0)
-            print("DEBUG offset arrays after adjusting: ")
-            for ar in arrays:
-                print(ar)
-
-        res = numpy.concatenate(
-            arrays, axis=0
-        )
+        res = numpy.concatenate(arrays, axis=0)
 
         if pad_missing_ele:
             first_ele_index = self.column_records[ncol].first_ele_index
             res = numpy.pad(res, (first_ele_index, 0))
+
         return res
 
     def read_col_page(self, ncol, cluster_i):
@@ -617,13 +608,13 @@ in file {self.file.file_path}"""
         _recursive_find(form, target_cols)
 
         for key in target_cols:
-            print(f"[uproot] DEBUG: Target col for page reading: {key}")
             if "column" in key:
                 key_nr = int(key.split("-")[1])
                 dtype_byte = self.column_records[key_nr].type
-                print(f"[uproot] DEBUG: dype_byte: {dtype_byte}")
 
-                is_offset_col = "cardinality" not in key and dtype_byte == 14
+                # Check if column stores offset values for jagged arrays:
+                is_offset_col = "cardinality" not in key and dtype_byte == 14  # Is detection for offset proper?
+
                 content = self.read_col_pages(
                     key_nr,
                     range(start_cluster_idx, stop_cluster_idx),
