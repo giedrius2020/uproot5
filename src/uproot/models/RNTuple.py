@@ -516,9 +516,13 @@ in file {self.file.file_path}"""
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
         if is_offset_col:
-            # Calculate cumulative lengths and add offsets
             print("DEBUG offset arrays before adjusting: ", arrays)
-            offsets = [0] + [arr[-1] for arr in arrays[:-1]]
+            # Step 1: Extract the last elements
+            last_elements = [arr[-1] for arr in arrays[:-1]]
+            # Step 2: Compute cumulative sum
+            cumulative_sum = numpy.cumsum(last_elements)
+            # Step 3: Prepend 0
+            offsets = numpy.concatenate(([0], cumulative_sum))
             print("DEBUG offsets: ", offsets)
 
             # Add the offsets to each array
@@ -618,7 +622,7 @@ in file {self.file.file_path}"""
                     key_nr,
                     range(start_cluster_idx, stop_cluster_idx),
                     is_offset_col=is_offset_col,
-                    pad_missing_ele=False,
+                    pad_missing_ele=True,
                 )
                 if "cardinality" in key:
                     content = numpy.diff(content)
