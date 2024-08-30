@@ -618,7 +618,7 @@ in file {self.file.file_path}"""
                     key_nr,
                     range(start_cluster_idx, stop_cluster_idx),
                     is_offset_col=is_offset_col,
-                    pad_missing_ele=True,
+                    pad_missing_ele=False,
                 )
                 if "cardinality" in key:
                     content = numpy.diff(content)
