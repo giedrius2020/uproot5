@@ -520,11 +520,11 @@ in file {self.file.file_path}"""
         if is_offset_col:
             # Identifying cluster boundaries (where the sequence resets)
             # Assuming each cluster starts at an offset of 0
-            cluster_boundaries = np.where(res == 0)[0]
+            cluster_boundaries = numpy.where(res == 0)[0]
 
             # Calculate the cumulative sum of maximum values in each cluster
-            cumulative_max = np.zeros_like(res)
-            cumulative_max[cluster_boundaries[1:]] = np.cumsum([res[b - 1] for b in cluster_boundaries[1:]])
+            cumulative_max = numpy.zeros_like(res)
+            cumulative_max[cluster_boundaries[1:]] = numpy.cumsum([res[b - 1] for b in cluster_boundaries[1:]])
 
             # Adjust the res by adding the cumulative maximum value
             continuous_res = offsets + cumulative_max
