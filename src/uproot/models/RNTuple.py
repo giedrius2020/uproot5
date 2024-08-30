@@ -513,25 +513,21 @@ in file {self.file.file_path}"""
         destination[:] = content[:num_elements]
 
     def read_col_pages(self, ncol, cluster_range, pad_missing_ele=False):
-        print(f"[uproot] DEBUG: read_col_pages(ncol={ncol}, cluster_range={cluster_range}, pad_missing_ele={pad_missing_ele})")
         res = numpy.concatenate(
             [self.read_col_page(ncol, i) for i in cluster_range], axis=0
         )
-        print(f"[uproot] DEBUG: len(res) after numpy.concatenate: {len(res)}")
-        print(f"[uproot] DEBUG: res: {res.tolist()}")
+
         if pad_missing_ele:
             first_ele_index = self.column_records[ncol].first_ele_index
             res = numpy.pad(res, (first_ele_index, 0))
         return res
 
     def read_col_page(self, ncol, cluster_i):
-        print(f"[uproot] DEBUG: reading col page. Cluster_i: {cluster_i}")
         linklist = self.page_list_envelopes.pagelinklist[cluster_i]
         pagelist = linklist[ncol]
         dtype_byte = self.column_records[ncol].type
         dtype_str = uproot.const.rntuple_col_num_to_dtype_dict[dtype_byte]
         total_len = numpy.sum([desc.num_elements for desc in pagelist], dtype=int)
-        print(f"[uproot] DEBUG: total_length of desc.num_elements: {total_len}")
 
         if dtype_str == "switch":
             dtype = numpy.dtype([("index", "int64"), ("tag", "int32")])
@@ -595,11 +591,12 @@ in file {self.file.file_path}"""
         target_cols = []
         container_dict = {}
         _recursive_find(form, target_cols)
+
         for key in target_cols:
+            print(f"Target col for page reading: {key}")
             if "column" in key:
                 key_nr = int(key.split("-")[1])
                 dtype_byte = self.column_records[key_nr].type
-                print(f"[uproot] DEBUG dtype_byte: {dtype_byte}")
 
                 content = self.read_col_pages(
                     key_nr,
@@ -621,12 +618,6 @@ in file {self.file.file_path}"""
         cluster_offset = cluster_starts[start_cluster_idx]
         entry_start -= cluster_offset
         entry_stop -= cluster_offset
-
-        print(f"[uproot] DEBUG Cluster num entries: {cluster_num_entries}")
-
-        print(f"[uproot] DEBUG form: \n{form}")
-        print(f"[uproot] DEBUG container: \n{container_dict}")
-
 
         return ak.from_buffers(form, cluster_num_entries, container_dict)[
             entry_start:entry_stop
