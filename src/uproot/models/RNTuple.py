@@ -516,9 +516,10 @@ in file {self.file.file_path}"""
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
         if is_offset_col:
-
             # Calculate cumulative lengths and add offsets
             offsets = numpy.cumsum([0] + [len(arr) for arr in arrays[:-1]])
+            print("DEBUG offsets: ", offsets)
+
 
             # Add the offsets to each array
             adjusted_arrays = [arr + offset for arr, offset in zip(arrays, offsets)]
@@ -529,8 +530,6 @@ in file {self.file.file_path}"""
         res = numpy.concatenate(
             arrays, axis=0
         )
-
-
 
         if pad_missing_ele:
             first_ele_index = self.column_records[ncol].first_ele_index
