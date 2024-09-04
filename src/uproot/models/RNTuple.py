@@ -516,7 +516,6 @@ in file {self.file.file_path}"""
     def read_col_pages(self, ncol, cluster_range, is_offset_col, pad_missing_ele=False):
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
         for i, arr in enumerate(arrays):
-            print(f"[uproot debug] array {i}: {arr}")
 
         if is_offset_col:
             # Extract the last offset values:
@@ -614,11 +613,8 @@ in file {self.file.file_path}"""
                 key_nr = int(key.split("-")[1])
                 dtype_byte = self.column_records[key_nr].type
 
-                # Check if column stores offset values for jagged arrays:
-                # is_offset_col = "cardinality" not in key and dtype_byte == 14  # Is detection for offset proper?
-                is_offset_col = dtype_byte == 14  # Is detection for offset proper?
-
-                print(f"[uproot debug] key: {key}, dtype_byte: {dtype_byte}")
+                # Check if column stores offset values for jagged arrays (applies to cardinality cols too):
+                is_offset_col = dtype_byte == 14
 
                 content = self.read_col_pages(
                     key_nr,
