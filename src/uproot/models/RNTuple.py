@@ -515,6 +515,8 @@ in file {self.file.file_path}"""
 
     def read_col_pages(self, ncol, cluster_range, is_offset_col, pad_missing_ele=False):
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
+        for i, arr in enumerate(arrays):
+            print(f"[uproot debug] array {i}: {arr}")
 
         if is_offset_col:
             # Extract the last offset values:
