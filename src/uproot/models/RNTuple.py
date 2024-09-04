@@ -615,7 +615,9 @@ in file {self.file.file_path}"""
                 dtype_byte = self.column_records[key_nr].type
 
                 # Check if column stores offset values for jagged arrays:
-                is_offset_col = "cardinality" not in key and dtype_byte == 14  # Is detection for offset proper?
+                # is_offset_col = "cardinality" not in key and dtype_byte == 14  # Is detection for offset proper?
+                is_offset_col = dtype_byte == 14  # Is detection for offset proper?
+
                 print(f"[uproot debug] key: {key}, dtype_byte: {dtype_byte}")
 
                 content = self.read_col_pages(
