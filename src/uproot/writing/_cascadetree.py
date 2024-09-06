@@ -663,20 +663,11 @@ class Tree:
 
             if datum["counter"] is None:
                 if datum["dtype"] == ">U0":
-                    awkward = uproot.extras.awkward()
-
-                    layout = awkward.to_layout(branch_array)
-                    if isinstance(
-                        layout,
-                        (awkward.contents.ListArray, awkward.contents.RegularArray),
-                    ):
-                        layout = layout.to_ListOffsetArray64()
-
-                    lengths = numpy.asarray(awkward.num(layout))
+                    lengths = numpy.asarray(awkward.num(branch_array.layout))
                     which_big = lengths >= 255
 
                     lengths_extension_offsets = numpy.empty(
-                        len(layout) + 1, numpy.int64
+                        len(branch_array.layout) + 1, numpy.int64
                     )
                     lengths_extension_offsets[0] = 0
                     numpy.cumsum(which_big * 4, out=lengths_extension_offsets[1:])
@@ -694,7 +685,7 @@ class Tree:
                         [
                             lengths.reshape(-1, 1).astype("u1"),
                             lengths_extension,
-                            awkward.without_parameters(layout),
+                            awkward.without_parameters(branch_array.layout),
                         ],
                         axis=1,
                     )
@@ -702,8 +693,8 @@ class Tree:
                     big_endian = numpy.asarray(awkward.flatten(leafc_data_awkward))
                     big_endian_offsets = (
                         lengths_extension_offsets
-                        + numpy.asarray(layout.offsets)
-                        + numpy.arange(len(layout.offsets))
+                        + numpy.asarray(branch_array.layout.offsets)
+                        + numpy.arange(len(branch_array.layout.offsets))
                     ).astype(">i4", copy=True)
                     tofill.append(
                         (

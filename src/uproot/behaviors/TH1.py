@@ -71,7 +71,7 @@ class Histogram:
         Two histograms are equal if their axes are equal, their values are equal,
         and their variances are equal.
         """
-        if type(self) is not type(other):
+        if type(self) != type(other):
             return False
         if self.axes != other.axes:
             return False
