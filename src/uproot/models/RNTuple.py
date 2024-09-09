@@ -569,7 +569,7 @@ in file {self.file.file_path}"""
                 if tracker > 0:
                     res[tracker] -= cumsum
                 cumsum += numpy.sum(res[tracker:tracker_end])
-                print("Test cumsum of delta: ", cumsum)
+                print(f"[cluster {cluster_i}] Test cumsum of delta: ", cumsum)
 
             tracker = tracker_end
 
@@ -578,8 +578,8 @@ in file {self.file.file_path}"""
         if zigzag:
             res = from_zigzag(res)
         elif delta:
-            res = res + cumsum
-            print("Test delta: ", res)
+            res = numpy.cumsum(res)
+            print(f"[cluster {cluster_i}] Test res when delta: ", res)
         return res
 
     def arrays(
