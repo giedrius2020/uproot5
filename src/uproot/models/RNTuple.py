@@ -517,18 +517,18 @@ in file {self.file.file_path}"""
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
 
-        # if is_offset_col:
-        #     # Extract the last offset values:
-        #     last_elements = [arr[-1] for arr in arrays[:-1]]
-        #
-        #     # Compute cumulative sum using itertools.accumulate:
-        #     last_offsets = [0] + list(accumulate(last_elements))
-        #
-        #     # Add the offsets to each array
-        #     arrays = [arr + offset for arr, offset in zip(arrays, last_offsets)]
-        #
-        #     # Remove the first element from every sub-array except for the first one:
-        #     arrays = [arrays[0]] + [arr[1:] for arr in arrays[1:]]
+        if is_offset_col:
+            # Extract the last offset values:
+            last_elements = [arr[-1] for arr in arrays[:-1]]
+
+            # Compute cumulative sum using itertools.accumulate:
+            last_offsets = [0] + list(accumulate(last_elements))
+
+            # Add the offsets to each array
+            arrays = [arr + offset for arr, offset in zip(arrays, last_offsets)]
+
+            # Remove the first element from every sub-array except for the first one:
+            arrays = [arrays[0]] + [arr[1:] for arr in arrays[1:]]
 
         res = numpy.concatenate(arrays, axis=0)
 
@@ -578,8 +578,9 @@ in file {self.file.file_path}"""
         if zigzag:
             res = from_zigzag(res)
         elif delta:
+            print(f"[cluster {cluster_i}] Test res before adding cumsum: ", res)
             res = numpy.cumsum(res)
-            print(f"[cluster {cluster_i}] Test res when delta: ", res)
+            print(f"[cluster {cluster_i}]  Test res after adding cumsum: ", res)
         return res
 
     def arrays(
