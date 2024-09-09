@@ -578,8 +578,8 @@ in file {self.file.file_path}"""
         if zigzag:
             res = from_zigzag(res)
         elif delta:
-            print("Test delta: ", res)
             res = numpy.cumsum(res)
+            print("Test delta: ", res)
         return res
 
     def arrays(
