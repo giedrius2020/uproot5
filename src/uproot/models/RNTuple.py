@@ -516,18 +516,18 @@ in file {self.file.file_path}"""
     def read_col_pages(self, ncol, cluster_range, is_offset_col, pad_missing_ele=False):
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
-        if is_offset_col:
-            # Extract the last offset values:
-            last_elements = [arr[-1] for arr in arrays[:-1]]
-
-            # Compute cumulative sum using itertools.accumulate:
-            last_offsets = [0] + list(accumulate(last_elements))
-
-            # Add the offsets to each array
-            arrays = [arr + offset for arr, offset in zip(arrays, last_offsets)]
-
-            # Remove the first element from every sub-array except for the first one:
-            arrays = [arrays[0]] + [arr[1:] for arr in arrays[1:]]
+        # if is_offset_col:
+        #     # Extract the last offset values:
+        #     last_elements = [arr[-1] for arr in arrays[:-1]]
+        #
+        #     # Compute cumulative sum using itertools.accumulate:
+        #     last_offsets = [0] + list(accumulate(last_elements))
+        #
+        #     # Add the offsets to each array
+        #     arrays = [arr + offset for arr, offset in zip(arrays, last_offsets)]
+        #
+        #     # Remove the first element from every sub-array except for the first one:
+        #     arrays = [arrays[0]] + [arr[1:] for arr in arrays[1:]]
 
         res = numpy.concatenate(arrays, axis=0)
 
@@ -565,7 +565,8 @@ in file {self.file.file_path}"""
                 res[tracker:tracker_end], page_desc, dtype_str, dtype, nbits, split
             )
             if delta:
-                res[tracker] -= cumsum
+                if tracker > 0:
+                    res[tracker] -= cumsum
                 cumsum += numpy.sum(res[tracker:tracker_end])
             tracker = tracker_end
 
