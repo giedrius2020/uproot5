@@ -566,8 +566,8 @@ in file {self.file.file_path}"""
                 res[tracker:tracker_end], page_desc, dtype_str, dtype, nbits, split
             )
             if delta:
-                if tracker > 0:
-                    res[tracker] -= cumsum
+                # if tracker > 0:
+                res[tracker] -= cumsum
                 cumsum += numpy.sum(res[tracker:tracker_end])
                 print(f"[cluster {cluster_i}] Test cumsum of delta: ", cumsum)
 
