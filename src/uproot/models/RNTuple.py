@@ -569,6 +569,8 @@ in file {self.file.file_path}"""
                 if tracker > 0:
                     res[tracker] -= cumsum
                 cumsum += numpy.sum(res[tracker:tracker_end])
+                print("Test cumsum of delta: ", cumsum)
+
             tracker = tracker_end
 
         if index:
@@ -576,7 +578,7 @@ in file {self.file.file_path}"""
         if zigzag:
             res = from_zigzag(res)
         elif delta:
-            print(res)
+            print("Test delta: ", res)
             res = numpy.cumsum(res)
         return res
 
@@ -624,8 +626,8 @@ in file {self.file.file_path}"""
                     is_offset_col=is_offset_col,
                     pad_missing_ele=True,
                 )
-                if is_offset_col:
-                    print("List of offset arrays: ", content.tolist())
+                # if is_offset_col:
+                #     print("List of offset arrays: ", content.tolist())
 
                 if "cardinality" in key:
                     content = numpy.diff(content)
