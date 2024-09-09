@@ -578,7 +578,7 @@ in file {self.file.file_path}"""
         if zigzag:
             res = from_zigzag(res)
         elif delta:
-            res = numpy.cumsum(res)
+            res = res + cumsum
             print("Test delta: ", res)
         return res
 
