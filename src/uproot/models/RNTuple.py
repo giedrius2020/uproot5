@@ -516,6 +516,7 @@ in file {self.file.file_path}"""
     def read_col_pages(self, ncol, cluster_range, is_offset_col, pad_missing_ele=False):
         arrays = [self.read_col_page(ncol, i) for i in cluster_range]
 
+
         # if is_offset_col:
         #     # Extract the last offset values:
         #     last_elements = [arr[-1] for arr in arrays[:-1]]
@@ -575,6 +576,7 @@ in file {self.file.file_path}"""
         if zigzag:
             res = from_zigzag(res)
         elif delta:
+            print(res)
             res = numpy.cumsum(res)
         return res
 
@@ -622,6 +624,9 @@ in file {self.file.file_path}"""
                     is_offset_col=is_offset_col,
                     pad_missing_ele=True,
                 )
+                if is_offset_col:
+                    print("List of offset arrays: ", content.tolist())
+
                 if "cardinality" in key:
                     content = numpy.diff(content)
                 if dtype_byte == uproot.const.rntuple_col_type_to_num_dict["switch"]:
