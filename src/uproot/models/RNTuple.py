@@ -566,11 +566,8 @@ in file {self.file.file_path}"""
                 res[tracker:tracker_end], page_desc, dtype_str, dtype, nbits, split
             )
             if delta:
-                if tracker > 0:
-                    res[tracker] -= cumsum
-                    cumsum += numpy.sum(res[tracker:tracker_end])
-                    print(f"[cluster {cluster_i}] Test cumsum of delta: ", cumsum)
-
+                res[tracker] -= cumsum
+                cumsum += numpy.sum(res[tracker:tracker_end])
             tracker = tracker_end
 
         if index:
@@ -625,8 +622,6 @@ in file {self.file.file_path}"""
                     is_offset_col=is_offset_col,
                     pad_missing_ele=True,
                 )
-                # if is_offset_col:
-                #     print("List of offset arrays: ", content.tolist())
 
                 if "cardinality" in key:
                     content = numpy.diff(content)
