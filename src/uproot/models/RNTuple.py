@@ -167,6 +167,7 @@ in file {self.file.file_path}"""
 
             h = HeaderReader().read(self._header_chunk, cursor, context)
             self._header = h
+            print(f"[DEBUG] self._header: {self._header}")
 
         return self._header
 
