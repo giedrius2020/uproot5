@@ -506,6 +506,7 @@ of file path {self._source.file_path}"""
     ) -> str:
         if move:
             length = self.field(chunk, _rntuple_string_length, context)
+            print(f"[DEBUG] rntuple_string length: {length}")
             return self.string_with_length(chunk, context, length)
         else:
             index = self._index
