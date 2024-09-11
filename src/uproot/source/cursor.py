@@ -438,6 +438,7 @@ class Cursor:
         stop = start + length
         if move:
             self._index = stop
+        print(f"DEBUG: start - {start}, end -{stop}")
         data = chunk.get(start, stop, self, context)
         return uproot._util.tobytes(data)
 
