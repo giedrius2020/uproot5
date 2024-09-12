@@ -224,7 +224,7 @@ class Cursor:
         """
         start = self._index
         stop = start + format.size
-        print(f"[DEBUG] (in cursor.field) {start}:{stop}. Bin data: {chunk.get(start, stop, self, context)}")
+        # print(f"[DEBUG] (in cursor.field) {start}:{stop}. Bin data: {chunk.get(start, stop, self, context)}")
         if move:
             self._index = stop
         return format.unpack(chunk.get(start, stop, self, context))[0]
@@ -440,7 +440,7 @@ class Cursor:
         if move:
             self._index = stop
         data = chunk.get(start, stop, self, context)
-        print(f"[DEBUG] (in cursor.bytestring_with_length) {start}:{stop}, bin data: {data}")
+        # print(f"[DEBUG] (in cursor.bytestring_with_length) {start}:{stop}, bin data: {data}")
         return uproot._util.tobytes(data)
 
     def string_with_length(
@@ -508,7 +508,8 @@ of file path {self._source.file_path}"""
             length = self.field(chunk, _rntuple_string_length, context)
             if self._index == 63789:
             # print(f"[DEBUG] rntuple_string length: {length}")
-                self.debug(chunk, context, limit_bytes=160)
+                print(f"[DEBUG]: cursor._index is at {self._index}.")
+                self.debug(chunk, context, limit_bytes=160*3)
             return self.string_with_length(chunk, context, length)
         else:
             index = self._index
