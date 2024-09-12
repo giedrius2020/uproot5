@@ -757,7 +757,7 @@ class FieldRecordReader:
             out.struct_role,
             out.flags,
         ) = cursor.fields(chunk, _rntuple_field_description_format, context)
-        print(f"[DEBUG]: FieldRecordReader out attributes:{(out.field_version,out.type_version,out.parent_field_id,out.struct_role,out.flags)}")
+        # print(f"[DEBUG]: FieldRecordReader out attributes:{(out.field_version,out.type_version,out.parent_field_id,out.struct_role,out.flags)}")
         if out.flags == 0x0001:
             out.repetition = cursor.field(chunk, _rntuple_repetition_format, context)
         else:

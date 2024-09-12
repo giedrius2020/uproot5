@@ -227,6 +227,7 @@ class Cursor:
         print(f"[DEBUG] (in cursor.field) start:{start}, end:{stop}. Bin data: {chunk.get(start, stop, self, context)}")
         if move:
             self._index = stop
+        print(f"[DEBUG] (certain region) start:{63860}, end:{63905}. Bin data: {chunk.get(63860, 63905, self, context)}")
         return format.unpack(chunk.get(start, stop, self, context))[0]
 
     def double32(
