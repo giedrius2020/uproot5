@@ -224,10 +224,9 @@ class Cursor:
         """
         start = self._index
         stop = start + format.size
-        print(f"[DEBUG] (in cursor.field) start:{start}, end:{stop}. Bin data: {chunk.get(start, stop, self, context)}")
+        print(f"[DEBUG] (in cursor.field) {start}:{stop}. Bin data: {chunk.get(start, stop, self, context)}")
         if move:
             self._index = stop
-        print(f"[DEBUG] (certain region) start:{63860}, end:{63905}. Bin data: {chunk.get(63860, 63905, self, context)}")
         return format.unpack(chunk.get(start, stop, self, context))[0]
 
     def double32(
@@ -507,7 +506,7 @@ of file path {self._source.file_path}"""
     ) -> str:
         if move:
             length = self.field(chunk, _rntuple_string_length, context)
-            print(f"[DEBUG] rntuple_string length: {length}")
+            # print(f"[DEBUG] rntuple_string length: {length}")
             return self.string_with_length(chunk, context, length)
         else:
             index = self._index
