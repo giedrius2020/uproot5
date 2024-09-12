@@ -224,6 +224,7 @@ class Cursor:
         """
         start = self._index
         stop = start + format.size
+        print(f"[DEBUG] format.size in field: {format.size}")
         if move:
             self._index = stop
         return format.unpack(chunk.get(start, stop, self, context))[0]
