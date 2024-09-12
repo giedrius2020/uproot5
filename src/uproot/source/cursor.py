@@ -439,9 +439,8 @@ class Cursor:
         stop = start + length
         if move:
             self._index = stop
-        print(f"[DEBUG] start: {start}, end: {stop}")
         data = chunk.get(start, stop, self, context)
-        print(f"[DEBUG] data: {data}")
+        print(f"[DEBUG] (in cursor.bytestring_with_length) {start}:{stop}, bin data: {data}")
         return uproot._util.tobytes(data)
 
     def string_with_length(
